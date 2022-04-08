@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
     <div class="container">
         <a class="navbar-brand" [routerLink]="'.'">Dream Style</a>
 
@@ -17,8 +17,18 @@
                 <li class="nav-item">
                     <a class="nav-link" [routerLink]="'.'" (click)="isMenuCollapsed = true">About</a>
                 </li>
-                <li class="nav-item">
-                    <button type="button" class="btn btn-primary me-3">Login</button>
+                <li class="nav-item ms-4">
+                    <div class="col">
+                        <div ngbDropdown class="d-inline-block">
+                            <button class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>Login</button>
+                            <div class="dropdown-menu-end" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                <button ngbDropdownItem>Login</button>
+                                <button ngbDropdownItem>Register</button>
+                                <hr class="dropdown-divider">
+                                <button ngbDropdownItem>Logout</button>
+                            </div>
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>
