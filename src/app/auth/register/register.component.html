@@ -1,0 +1,77 @@
+<div class="container w-50 p-5 my-5 border rounded-3">
+    <form [formGroup]="form" (ngSubmit)="register()">
+        <h2>Register Form</h2>
+
+        <div class="mb-3 mt-3">
+            <label for="username" class="form-label">Username:</label>
+            <input formControlName="username" type="username"
+                [class.input-error]="form.controls['username'].touched && form.controls['username'].invalid"
+                class="form-control" id="username" placeholder="Enter username" name="username">
+        </div>
+
+        <ng-container *ngIf="form.controls['username'].touched && form.controls['username'].invalid">
+            <p *ngIf="form.controls['username'].errors?.['required']" class="error">
+                Username is required!
+            </p>
+
+            <p *ngIf="form.controls['username'].errors?.['minlength']" class="error">
+                Username must be at least 4 characters!
+            </p>
+        </ng-container>
+
+        <div class="mb-3 mt-3">
+            <label for="email" class="form-label">Email:</label>
+            <input formControlName="email" type="email" class="form-control" id="email" placeholder="Enter email"
+                name="email">
+        </div>
+
+        <ng-container
+            *ngIf="form.controls['email'].touched && form.controls['email'].invalid">
+            <p *ngIf="form.controls['email'].errors?.['required']" class="error">
+                Email is required!
+            </p>
+
+            <p *ngIf="form.controls['email'].errors?.['email']" class="error">
+                Email is not valid!
+            </p>
+        </ng-container>
+
+        <div class="mb-3 mt-3">
+            <label for="tel" class="form-label">Telephone:</label>
+            <input formControlName="tel" type="tel" class="form-control" id="tel" placeholder="Enter telephone"
+                name="tel">
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Password:</label>
+            <input formControlName="password" type="password" class="form-control" id="password"
+                placeholder="Enter password" name="password">
+        </div>
+
+        <ng-container *ngIf="form.controls['password'].touched && form.controls['password'].invalid">
+            <p *ngIf="form.controls['password'].errors?.['required']" class="error">
+                Password is required!
+            </p>
+            <p *ngIf="form.controls['password'].errors?.['minlength']" class="error">
+                Password must be at least 5 characters!
+            </p>
+        </ng-container>
+
+        <div class="mb-3">
+            <label for="repass" class="form-label">Repeat Password:</label>
+            <input formControlName="repass" type="password" class="form-control" id="repass"
+                placeholder="Repeat password" name="repass">
+        </div>
+
+        <ng-container *ngIf="form.controls['repass'].touched && form.controls['repass'].invalid">
+            <p class="error">Repeat Password does not match password!</p>
+        </ng-container>
+
+        <button [disabled]="form.invalid" type="submit" class="btn btn-primary my-2">Create Account</button>
+
+        <p class="text-center">
+            Have an account?
+            <a routerLink="/login">Log In</a>
+        </p>
+    </form>
+</div>
