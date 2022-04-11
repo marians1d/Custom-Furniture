@@ -1,5 +1,5 @@
-<div class="container p-5">
-    <form #form="ngForm" (ngSubmit)="loginHandler(form)">
+<div class="container w-50 p-5 my-5 border rounded-3">
+    <form #form="ngForm" (ngSubmit)="login(form)">
         <h2>Login Form</h2>
 
         <div class="mb-3 mt-3">
@@ -33,7 +33,7 @@
             </p>
         </ng-container>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary my-2" [disabled]="form.invalid">Login</button>
 
         <p class="text-center">
             Don't have an account?
