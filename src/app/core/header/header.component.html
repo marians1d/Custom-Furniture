@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
     <div class="container">
-        <a class="navbar-brand" [routerLink]="'.'">Dream Style</a>
+        <a class="navbar-brand" routerLink="/">Dream Style</a>
 
         <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
             &#9776;
@@ -8,24 +8,42 @@
 
         <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
+
                 <li class="nav-item active">
-                    <a class="nav-link" [routerLink]="'.'" (click)="isMenuCollapsed = true">Home</a>
+                    <a class="nav-link" routerLink="/" (click)="isMenuCollapsed = true">Home</a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" [routerLink]="'.'" (click)="isMenuCollapsed = true">Orders</a>
+                    <a class="nav-link" routerLink="/orders" (click)="isMenuCollapsed = true">Orders</a>
                 </li>
+
+                <li class="nav-item" *ngIf="isLogged">
+                    <a class="nav-link" routerLink="/orders/new" (click)="isMenuCollapsed = true">New Order</a>
+                </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" [routerLink]="'.'" (click)="isMenuCollapsed = true">About</a>
+                    <a class="nav-link" routerLink="/about" (click)="isMenuCollapsed = true">About</a>
                 </li>
-                <li class="nav-item ms-4">
+
+                <li class="nav-item ms-5">
                     <div class="col">
                         <div ngbDropdown class="d-inline-block">
-                            <button class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>Login</button>
+                            <button class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle
+                                *ngIf="!isLogged">Login</button>
+                            <button class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle
+                                *ngIf="isLogged">Profile</button>
                             <div class="dropdown-menu-end" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                                <button ngbDropdownItem>Login</button>
-                                <button ngbDropdownItem>Register</button>
-                                <hr class="dropdown-divider">
-                                <button ngbDropdownItem>Logout</button>
+                                <ng-container *ngIf="!isLogged">
+                                    <button routerLink="/login" ngbDropdownItem>Login</button>
+                                    <button routerLink="/register" ngbDropdownItem>Register</button>
+                                </ng-container>
+                                
+                                <ng-container *ngIf="isLogged">
+                                    <span ngbDropdownItem>Hello, {{ currentUser!.username }}</span>
+                                    <button ngbDropdownItem>My Profile</button>
+                                    <hr class="dropdown-divider">
+                                    <button (click)="logout()" ngbDropdownItem>Logout</button>
+                                </ng-container>
                             </div>
                         </div>
                     </div>
