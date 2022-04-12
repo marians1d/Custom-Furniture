@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IOrder } from 'src/app/shared/interfaces';
+import { IComment, IOrder } from 'src/app/shared/interfaces';
 import { environment } from 'src/environments/environment';
 
 const apiUrl = environment.apiUrl;
@@ -15,6 +15,10 @@ export class OrderService {
 
   getOrders$(): Observable<IOrder[]> {
     return this.http.get<IOrder[]>(`${apiUrl}/orders`, { withCredentials: true });
+  }
+
+  getOrder$(id: string): Observable<IOrder<IComment>> {
+    return this.http.get<IOrder<IComment>>(`${apiUrl}/orders/${id}`, { withCredentials: true });
   }
 
   createOrder$(body: { orderName: string, location: string, description: string }): Observable<IOrder> {

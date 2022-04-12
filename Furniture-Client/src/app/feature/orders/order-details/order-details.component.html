@@ -1,1 +1,30 @@
-<p>order-details works!</p>
+<div *ngIf="order" class="container text-center text-lg-start">
+    <section class="main  mt-5 border rounded-3">
+        
+        <div class="d-lg-flex align-items-center justify-content-evenly">
+            <img class="p-5" [src]="order.imageUrl ? order.imageUrl : '/assets/sketching1.png'" alt="">
+            <div class="">
+                <h1 class="py-3 border-bottom">{{ order.orderName }}</h1>
+                <h2> Location: {{ order.address }}</h2>
+                <h3 class="my-4">
+                    Description: {{ order.description }}
+                </h3>
+
+                <div *ngIf="isLogged" class="actions">
+                    <button></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section *ngIf="isLogged" class="comment container my-5 border rounded-3">
+        <form #form="ngForm" class="m-4" (ngSubmit)="comment(form)">
+            <label for="comment">Comments:</label>
+            <textarea class="form-control" rows="5" id="comment" name="text"></textarea>
+
+            <button class="btn btn-primary mt-3">Submit</button>
+        </form>
+    </section>
+</div>
+
+<app-spiner *ngIf="!order"></app-spiner>

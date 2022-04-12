@@ -8,7 +8,7 @@ const apiUrl = environment.apiUrl;
 
 @Injectable()
 export class UserService {
-  user: IUser | null | undefined;
+  user: IUser | null | undefined = null;
 
   get isLogged(): boolean {
     return !!this.user;
