@@ -10,6 +10,7 @@ import { HeaderComponent } from './core/header/header.component';
 import { PagesModule } from './feature/pages/pages.module';
 import { FooterComponent } from './core/footer/footer.component';
 import { AuthModule } from './auth/auth.module';
+import { OrdersModule } from './feature/orders/orders.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AuthModule } from './auth/auth.module';
     CoreModule,
     PagesModule,
     AuthModule,
-    AppRoutingModule
+    AppRoutingModule,
+    OrdersModule
   ],
   providers: [],
   bootstrap: [
