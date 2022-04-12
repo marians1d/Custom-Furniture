@@ -7,6 +7,7 @@ import { OrderService } from './order.service';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrderListComponent } from './order-list/order-list.component';
 import { OrderListItemComponent } from './order-list-item/order-list-item.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
@@ -20,7 +21,8 @@ import { OrderListItemComponent } from './order-list-item/order-list-item.compon
   imports: [
     CommonModule,
     OrderRoutingModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ],
   providers: [
     OrderService

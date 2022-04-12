@@ -1,1 +1,7 @@
-<p>order-list works!</p>
+<ng-container *ngIf="orderList">
+    <div *ngFor="let order of orderList" >
+        <app-order-list-item [order]="order"></app-order-list-item>
+    </div>
+</ng-container>
+
+<app-spiner *ngIf="!orderList" ></app-spiner>
