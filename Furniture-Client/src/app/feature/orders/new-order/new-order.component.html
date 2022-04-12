@@ -1,41 +1,77 @@
-<form #form="ngForm" (ngSubmit)="submit(form)">
-    <h2>Login Form</h2>
+<div class="container w-50 p-5 my-5 border rounded-3">
 
-    <div class="mb-3 mt-3">
-        <label for="email" class="form-label">Email:</label>
-        <input ngModel #emailInput="ngModel" [class.input-error]="emailInput.touched && emailInput.invalid" type="email" class="form-control" id="email" placeholder="Enter email"
-          name="email" required email>
-    </div>
+    <form #form="ngForm" (ngSubmit)="submit(form)">
+        <h2>Place an Order</h2>
 
-    <ng-container *ngIf="emailInput.touched">
-        <p *ngIf="emailInput.errors?.['required']" class="error">
-            Email is required!
-        </p>
-        <p *ngIf="emailInput.errors?.['email']" class="error">
-            Email is not valid!
-        </p>
-    </ng-container>
+        <div class="mb-3 mt-3">
+            <label for="orderName" class="form-label">Order Name:</label>
+            <input ngModel #nameInput="ngModel" [class.input-error]="nameInput.touched && nameInput.invalid" type="text"
+                class="form-control" id="orderName" placeholder="Enter your order's name" name="orderName" required
+                minlength="4">
+        </div>
+
+        <ng-container *ngIf="nameInput.touched">
+            <p *ngIf="nameInput.errors?.['required']" class="error">
+                Order's Name is required!
+            </p>
+            <p *ngIf="nameInput.errors?.['minlength']" class="error">
+                Order's Name is not valid!
+            </p>
+        </ng-container>
 
 
-    <div class="mb-3">
-        <label for="password" class="form-label">Password:</label>
-        <input ngModel #passwordInput="ngModel" [class.input-error]="passwordInput.touched && passwordInput.invalid" type="password" class="form-control" id="password" placeholder="Enter password"
-          name="password" required minlength="5">
-    </div>
+        <div class="mb-3">
+            <label for="location" class="form-label">Order location:</label>
+            <input ngModel #locationInput="ngModel" [class.input-error]="locationInput.touched && locationInput.invalid"
+                type="text" class="form-control" id="location" placeholder="Enter location" name="address" required
+                minlength="5">
+        </div>
 
-    <ng-container *ngIf="passwordInput.touched">
-        <p *ngIf="passwordInput.errors?.['required']" class="error">
-            Password is required!
-        </p>
-        <p *ngIf="passwordInput.errors?.['minlength']" class="error">
-            Password must be at least 5 characters!
-        </p>
-    </ng-container>
+        <ng-container *ngIf="locationInput.touched">
+            <p *ngIf="locationInput.errors?.['required']" class="error">
+                Location is required!
+            </p>
+        </ng-container>
 
-    <button type="submit" class="btn btn-primary my-2" [disabled]="form.invalid">Login</button>
+        <label class="form-label">Order status:</label>
+        <div class="container border rounded-3 mb-3">
+            <div class="form-check py-1">
+                <input ngModel #statusInput="ngModel" type="radio" class="form-check-input" id="radio1"
+                    [(ngModel)]="initialStatus" name="status" [value]="'public'" pattern="public|private">
+                <label class="form-check-label" for="radio1">Public <span class="small ">(Anyone on the internet can see your order)</span></label>
+            </div>
+            <div class="form-check py-1">
+                <input ngModel #statusInput="ngModel" type="radio" class="form-check-input" id="radio2"
+                    [(ngModel)]="initialStatus" name="status" [value]="'private'" pattern="public|private">
+                <label class="form-check-label" for="radio2">Private <span class="small">(Only staff can see your order)</span></label>
+            </div>
 
-    <p class="text-center">
-        Don't have an account?
-        <a routerLink="/register">Register</a>
-    </p>
-</form>
+            <ng-container *ngIf="statusInput.touched && statusInput.invalid">
+                <p class="error">
+                    Invalid status is required!
+                </p>
+            </ng-container>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description:</label>
+            <textarea ngModel #descriptionInput="ngModel"
+                [class.input-error]="descriptionInput.touched && descriptionInput.invalid" class="form-control" rows="5"
+                id="description" name="description" placeholder="I want a kitchen whit white cabinets" required
+                maxlength="300" minlength="10"></textarea>
+        </div>
+
+        <ng-container *ngIf="descriptionInput.touched">
+            <p *ngIf="locationInput.errors?.['required']" class="error">
+                Description is required!
+            </p>
+            <p *ngIf="descriptionInput.errors?.['minlength']" class="error">
+                Description must be at least 10 characters long
+            </p>
+        </ng-container>
+
+
+
+        <button type="submit" class="btn btn-primary my-2" [disabled]="form.invalid">Submit</button>
+    </form>
+</div>
