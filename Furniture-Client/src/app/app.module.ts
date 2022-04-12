@@ -19,7 +19,6 @@ import { OrdersModule } from './feature/orders/orders.module';
   imports: [
     BrowserModule,
     HttpClientModule,
-    NgbModule,
     CoreModule,
     PagesModule,
     AuthModule,

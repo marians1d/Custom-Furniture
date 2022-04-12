@@ -5,9 +5,9 @@ function getOrders(req, res, next) {
     const filter = {};
 
     if (!user) {
-        filter.visibility = 'Public';
+        filter.visibility = 'public';
     } else if (user.status === 'customer') {
-        filter.visibility = 'Public';
+        filter.visibility = 'public';
     }
 
     orderModel.find(filter)

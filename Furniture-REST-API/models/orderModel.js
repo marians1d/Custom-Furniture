@@ -20,10 +20,10 @@ const orderSchema = new mongoose.Schema({
     visibility: {
         type: String,
         enum: [
-            'Private',
-            'Public'
+            'private',
+            'public'
         ],
-        default: 'Public'
+        default: 'public'
     },
     providers: [{
         type: ObjectId,
