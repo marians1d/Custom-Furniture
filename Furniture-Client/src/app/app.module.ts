@@ -11,6 +11,7 @@ import { PagesModule } from './feature/pages/pages.module';
 import { FooterComponent } from './core/footer/footer.component';
 import { AuthModule } from './auth/auth.module';
 import { OrdersModule } from './feature/orders/orders.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
