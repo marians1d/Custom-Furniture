@@ -43,7 +43,9 @@ function createOrder(req, res, next) {
 function provide(req, res, next) {
     const orderId = req.params.orderId;
     const { _id: userId } = req.user;
-    orderModel.findByIdAndUpdate({ _id: orderId }, { $addToSet: { providers: userId } }, { new: true })
+    const { mesurmentDate } = req.body;
+
+    orderModel.findByIdAndUpdate({ _id: orderId }, {mesurmentDate, $addToSet: { providers: userId } }, { new: true })
         .then(updatedOrder => {
             res.status(200).json(updatedOrder);
         })

@@ -6,14 +6,15 @@
             <div class="">
                 <h1 class="py-3 border-bottom">{{ order.orderName }}</h1>
                 <p> Location: {{ order.address }}</p>
+                <p *ngIf="isOwner || isProvider"> Mesurment Date: {{ order.mesurmentDate | date:'dd / MM / yy' }}</p>
                 <p class="my-4">
                     Description: {{ order.description }}
                 </p>
 
                 <div *ngIf="isLogged" class="actions text-center">
                     <ng-container *ngIf="isOwner">
-                        <button class="btn btn-warning me-4">Edit</button>
-                        <button class="btn btn-danger">Delete</button>
+                        <button class="btn btn-warning me-4" routerLink="/">Edit</button>
+                        <button class="btn btn-danger" (click)="delete()">Delete</button>
                     </ng-container>
                     <ng-container *ngIf="!isOwner && isProvider && !isProviding">
                         <button class="btn btn-warning" (click)="isProviding = !isProviding">Provide</button>
@@ -21,7 +22,7 @@
                     <form *ngIf="isProviding" #provideForm="ngForm" (ngSubmit)="provide(provideForm)" class="m-4" >
                         <div class="mb-3 mt-3">
                             <label for="mdate" class="form-label">Mesurment Day</label>
-                            <input type="date" class="form-control" id="mdate" placeholder="Enter Mesurment Date" name="email">
+                            <input ngModel #mesurmentDate="ngModel" type="date" class="form-control" id="mdate" placeholder="Enter Mesurment Date" name="mesurmentDate">
                         </div>
 
                         <button class="btn btn-primary mt-3">Submit</button>

@@ -1,6 +1,6 @@
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/auth/user.service';
 import { IComment, IOrder, IUser } from 'src/app/shared/interfaces';
 import { CommentService } from '../../comments/comment.service';
@@ -23,10 +23,18 @@ export class OrderDetailsComponent implements OnInit {
   }
   
   get isOwner() {
+    if (!this.user) {
+      return false;
+    }
+
     return this.user!._id == this.order.userId._id;
   }
 
   get isProvider() {
+    if (!this.user) {
+      return false;
+    }
+
     return this.user?.status === 'provider'
   }
 
@@ -36,7 +44,8 @@ export class OrderDetailsComponent implements OnInit {
     private orderService: OrderService,
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
-    private commentService: CommentService
+    private commentService: CommentService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -56,8 +65,19 @@ export class OrderDetailsComponent implements OnInit {
     form.reset();
   }
 
+  delete() {
+    this.orderService.deleteOrder$(this.order._id).subscribe(() => {
+      this.router.navigate(['/']);
+    });
+  }
+
   provide(form: NgForm): void {
-    console.log(form.value);
+
+    const mesurmentDate = new Date(form.value.mesurmentDate);
     
+    this.orderService.provide$({ mesurmentDate } , this.order._id).subscribe(() => {
+      this.order.mesurmentDate = mesurmentDate;
+      this.isProviding = false;
+    });
   }
 }

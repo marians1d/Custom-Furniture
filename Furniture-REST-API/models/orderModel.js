@@ -6,7 +6,7 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    deliveryDate: {
+    mesurmentDate: {
         type: Date
     },
     address: {

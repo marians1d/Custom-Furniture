@@ -15,7 +15,7 @@ const routes: Routes = [
     {
         path: 'orders/:orderId',
         component: OrderDetailsComponent
-    }  
+    }
 ];
 
 export const OrderRoutingModule = RouterModule.forChild(routes);
