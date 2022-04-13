@@ -1,0 +1,79 @@
+<div *ngIf="order" class="container w-50 p-5 my-5 border rounded-3">
+
+    <form #form="ngForm" (ngSubmit)="submit(form)">
+        <h2>Edit your Order</h2>
+
+        <div class="mb-3 mt-3">
+            <label for="orderName" class="form-label">Order Name:</label>
+            <input [ngModel]="order.orderName" #nameInput="ngModel" [class.input-error]="nameInput.touched && nameInput.invalid" type="text"
+                class="form-control" id="orderName" placeholder="Enter your order's name" name="orderName" required
+                minlength="4">
+        </div>
+
+        <ng-container *ngIf="nameInput.touched">
+            <p *ngIf="nameInput.errors?.['required']" class="error">
+                Order's Name is required!
+            </p>
+            <p *ngIf="nameInput.errors?.['minlength']" class="error">
+                Order's Name is not valid!
+            </p>
+        </ng-container>
+
+
+        <div class="mb-3">
+            <label for="location" class="form-label">Order location:</label>
+            <input [ngModel]="order.address" #locationInput="ngModel" [class.input-error]="locationInput.touched && locationInput.invalid"
+                type="text" class="form-control" id="location" placeholder="Enter location" name="address" required
+                minlength="5">
+        </div>
+
+        <ng-container *ngIf="locationInput.touched">
+            <p *ngIf="locationInput.errors?.['required']" class="error">
+                Location is required!
+            </p>
+        </ng-container>
+
+        <label class="form-label">Order status:</label>
+        <div class="container border rounded-3 mb-3">
+            <div class="form-check py-1">
+                <input ngModel #statusInput="ngModel" type="radio" class="form-check-input" id="radio1"
+                    [(ngModel)]="initialStatus" name="visibility" [value]="'public'" pattern="public|private">
+                <label class="form-check-label" for="radio1">Public <span class="small text-muted">(Anyone on the internet can see your order)</span></label>
+            </div>
+            <div class="form-check py-1">
+                <input ngModel #statusInput="ngModel" type="radio" class="form-check-input" id="radio2"
+                    [(ngModel)]="initialStatus" name="visibility" [value]="'private'" pattern="public|private">
+                <label class="form-check-label" for="radio2">Private <span class="small text-muted">(Only staff can see your order)</span></label>
+            </div>
+
+            <ng-container *ngIf="statusInput.touched && statusInput.invalid">
+                <p class="error">
+                    Invalid status is required!
+                </p>
+            </ng-container>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description:</label>
+            <textarea [ngModel]="order.description" #descriptionInput="ngModel"
+                [class.input-error]="descriptionInput.touched && descriptionInput.invalid" class="form-control" rows="5"
+                id="description" name="description" placeholder="I want a kitchen whit white cabinets" required
+                maxlength="300" minlength="10"></textarea>
+        </div>
+
+        <ng-container *ngIf="descriptionInput.touched">
+            <p *ngIf="locationInput.errors?.['required']" class="error">
+                Description is required!
+            </p>
+            <p *ngIf="descriptionInput.errors?.['minlength']" class="error">
+                Description must be at least 10 characters long
+            </p>
+        </ng-container>
+
+
+
+        <button type="submit" class="btn btn-primary my-2" [disabled]="form.invalid">Submit</button>
+    </form>
+</div>
+
+<app-spiner *ngIf="!order"></app-spiner>
