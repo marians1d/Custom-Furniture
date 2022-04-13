@@ -4,16 +4,16 @@
         <div class="d-lg-flex align-items-center justify-content-evenly">
             <img class="p-5" [src]="order.imageUrl ? order.imageUrl : '/assets/sketching1.png'" alt="">
             <div class="">
-                <h1 class="py-3 border-bottom">{{ order.orderName }}</h1>
+                <h2 class="py-1 border-bottom">{{ order.orderName }}</h2>
                 <p> Location: {{ order.address }}</p>
-                <p *ngIf="isOwner || isProvider"> Mesurment Date: {{ order.mesurmentDate | date:'dd / MM / yy' }}</p>
+                <p *ngIf="order.mesurmentDate && (isOwner || isProvider)"> Mesurment Date: {{ order.mesurmentDate | date:'dd / MM / yy' }}</p>
                 <p class="my-4">
                     Description: {{ order.description }}
                 </p>
 
                 <div *ngIf="isLogged" class="actions text-center">
                     <ng-container *ngIf="isOwner">
-                        <button class="btn btn-warning me-4" routerLink="/">Edit</button>
+                        <button class="btn btn-warning me-4" [routerLink]="['/orders', order._id, 'edit']">Edit</button>
                         <button class="btn btn-danger" (click)="delete()">Delete</button>
                     </ng-container>
                     <ng-container *ngIf="!isOwner && isProvider && !isProviding">

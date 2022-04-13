@@ -37,12 +37,12 @@
         <div class="container border rounded-3 mb-3">
             <div class="form-check py-1">
                 <input ngModel #statusInput="ngModel" type="radio" class="form-check-input" id="radio1"
-                    [(ngModel)]="initialStatus" name="status" [value]="'public'" pattern="public|private">
+                    [(ngModel)]="initialStatus" name="visibility" [value]="'public'" pattern="public|private">
                 <label class="form-check-label" for="radio1">Public <span class="small text-muted">(Anyone on the internet can see your order)</span></label>
             </div>
             <div class="form-check py-1">
                 <input ngModel #statusInput="ngModel" type="radio" class="form-check-input" id="radio2"
-                    [(ngModel)]="initialStatus" name="status" [value]="'private'" pattern="public|private">
+                    [(ngModel)]="initialStatus" name="visibility" [value]="'private'" pattern="public|private">
                 <label class="form-check-label" for="radio2">Private <span class="small text-muted">(Only staff can see your order)</span></label>
             </div>
 
