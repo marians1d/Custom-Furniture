@@ -1,4 +1,8 @@
 <div class="container w-50 p-5 my-5 border rounded-3">
+    <p *ngIf="errorMessage" class="error">
+        {{ errorMessage }}
+    </p>
+
     <form #form="ngForm" (ngSubmit)="login(form)">
         <h2>Login Form</h2>
 

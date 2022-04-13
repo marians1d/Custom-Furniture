@@ -8,12 +8,11 @@ import { UserService } from '../user.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
+
+  errorMessage: string | undefined = undefined;
 
   constructor(private userService: UserService, private router: Router) { }
-
-  ngOnInit(): void {
-  }
 
   login(form: NgForm): void {
     if (form.invalid) { return; }
@@ -23,8 +22,8 @@ export class LoginComponent implements OnInit {
       next: () => {
         this.router.navigate(['/']);
       },
-      error: (err) => {
-        console.error(err);
+      error: (err) => {        
+        this.errorMessage = err.error.message;
       }
     });
   }
