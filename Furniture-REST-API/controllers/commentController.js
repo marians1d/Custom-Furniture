@@ -5,7 +5,7 @@ function newComment(text, userId, orderId) {
         .then(comment => {
             return Promise.all([
                 userModel.updateOne({ _id: userId }, { $push: { comments: comment._id }, $addToSet: { orders: orderId } }),
-                orderModel.findByIdAndUpdate({ _id: orderId }, { $push: { comments: comment._id }, $addToSet: { subscribers: userId } }, { new: true })
+                orderModel.findByIdAndUpdate({ _id: orderId }, { $push: { comments: comment._id } }, { new: true })
             ]);
         });
 }
