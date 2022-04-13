@@ -34,13 +34,13 @@
                                 *ngIf="isLogged">Profile</button>
                             <div class="dropdown-menu-end" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                                 <ng-container *ngIf="!isLogged">
-                                    <button routerLink="/login" ngbDropdownItem>Login</button>
-                                    <button routerLink="/register" ngbDropdownItem>Register</button>
+                                    <button routerLink="/users/login" ngbDropdownItem>Login</button>
+                                    <button routerLink="/users/register" ngbDropdownItem>Register</button>
                                 </ng-container>
                                 
                                 <ng-container *ngIf="isLogged">
-                                    <span ngbDropdownItem>Hello, {{ currentUser!.username }}</span>
-                                    <button ngbDropdownItem>My Profile</button>
+                                    <span class="dropdown-item-text">Hello, {{ currentUser!.username }}</span>
+                                    <button routerLink="/profile" ngbDropdownItem>My Profile</button>
                                     <hr class="dropdown-divider">
                                     <button (click)="logout()" ngbDropdownItem>Logout</button>
                                 </ng-container>
