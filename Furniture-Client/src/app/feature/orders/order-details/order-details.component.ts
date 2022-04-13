@@ -1,10 +1,10 @@
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from 'src/app/auth/user.service';
+import { UserService } from 'src/app/core/services/user.service';
 import { IComment, IOrder, IUser } from 'src/app/shared/interfaces';
-import { CommentService } from '../../comments/comment.service';
-import { OrderService } from '../order.service';
+import { CommentService } from '../../../core/services/comment.service';
+import { OrderService } from '../../../core/services/order.service';
 
 @Component({
   selector: 'app-order-details',

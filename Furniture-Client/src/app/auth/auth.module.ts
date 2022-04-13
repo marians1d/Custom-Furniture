@@ -5,7 +5,6 @@ import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AuthRoutingModule } from './auth-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UserService } from './user.service';
 
 @NgModule({
   declarations: [
@@ -18,9 +17,6 @@ import { UserService } from './user.service';
     AuthRoutingModule,
     FormsModule,
     ReactiveFormsModule
-  ],
-  providers: [
-    UserService
   ]
 })
 export class AuthModule { }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IOrder } from 'src/app/shared/interfaces';
-import { OrderService } from '../order.service';
+import { OrderService } from '../../../core/services/order.service';
 
 @Component({
   selector: 'app-order-list',

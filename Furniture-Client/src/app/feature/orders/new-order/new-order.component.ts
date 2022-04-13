@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { OrderService } from '../order.service';
+import { OrderService } from '../../../core/services/order.service';
 
 @Component({
   selector: 'app-new-order',
@@ -20,11 +20,9 @@ export class NewOrderComponent {
 
   submit(form: NgForm): void {
     if (form.invalid) { return; }
-    
+
     this.orderService.createOrder$(form.value).subscribe({
       next: (order) => {
-        console.log(order);
-
         this.router.navigate([`/orders/${order._id}`]);
       },
       error: (err) => {
