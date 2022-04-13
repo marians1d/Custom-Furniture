@@ -26,6 +26,7 @@ function getOrder(req, res, next) {
               path : 'userId'
             }
           })
+        .populate('userId')
         .then(order => res.json(order))
         .catch(next);
 }

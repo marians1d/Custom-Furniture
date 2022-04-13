@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/auth/user.service';
 import { IComment, IOrder, IUser } from 'src/app/shared/interfaces';
+import { CommentService } from '../../comments/comment.service';
 import { OrderService } from '../order.service';
 
 @Component({
@@ -11,20 +11,35 @@ import { OrderService } from '../order.service';
   templateUrl: './order-details.component.html',
   styleUrls: ['./order-details.component.css'],
 })
-export class OrderDetailsComponent implements OnInit, AfterViewChecked {
+export class OrderDetailsComponent implements OnInit {
   order!: IOrder<IComment>;
 
-  user: IUser | null | undefined = this.userService.user;
+  get user() {
+    return this.userService.user;
+  }
 
-  isLogged: boolean = this.userService.isLogged;
+  get isLogged() {
+    return this.userService.isLogged;
+  }
+  
+  get isOwner() {
+    return this.user!._id == this.order.userId._id;
+  }
+
+  get isProvider() {
+    return this.user?.status === 'provider'
+  }
+
+  isProviding: boolean = false;
 
   constructor(
     private orderService: OrderService,
     private activatedRoute: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    private commentService: CommentService
   ) {}
 
-  ngOnInit(): void {  
+  ngOnInit(): void {
     const orderId = this.activatedRoute.snapshot.params['orderId'];
 
     this.orderService.getOrder$(orderId).subscribe((order) => {
@@ -32,13 +47,17 @@ export class OrderDetailsComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  comment(form: NgForm):void {
-    console.log(this.userService.user);
-    console.log(this.userService.isLogged);
-    
+  comment(form: NgForm): void {
+    if (form.invalid) { return; }
+
+    const commentText: string = form.value.comment;
+    this.commentService.createComment$({ commentText }, this.order._id).subscribe();
+
+    form.reset();
   }
 
-  ngAfterViewChecked(): void {
-    this.isLogged = Boolean(this.userService.user)    
+  provide(form: NgForm): void {
+    console.log(form.value);
+    
   }
 }

@@ -1,28 +1,45 @@
 <div *ngIf="order" class="container text-center text-lg-start">
     <section class="main  mt-5 border rounded-3">
-        
+
         <div class="d-lg-flex align-items-center justify-content-evenly">
             <img class="p-5" [src]="order.imageUrl ? order.imageUrl : '/assets/sketching1.png'" alt="">
             <div class="">
                 <h1 class="py-3 border-bottom">{{ order.orderName }}</h1>
-                <h2> Location: {{ order.address }}</h2>
-                <h3 class="my-4">
+                <p> Location: {{ order.address }}</p>
+                <p class="my-4">
                     Description: {{ order.description }}
-                </h3>
+                </p>
 
-                <div *ngIf="isLogged" class="actions">
-                    <button></button>
+                <div *ngIf="isLogged" class="actions text-center">
+                    <ng-container *ngIf="isOwner">
+                        <button class="btn btn-warning me-4">Edit</button>
+                        <button class="btn btn-danger">Delete</button>
+                    </ng-container>
+                    <ng-container *ngIf="!isOwner && isProvider && !isProviding">
+                        <button class="btn btn-warning" (click)="isProviding = !isProviding">Provide</button>
+                    </ng-container>
+                    <form *ngIf="isProviding" #provideForm="ngForm" (ngSubmit)="provide(provideForm)" class="m-4" >
+                        <div class="mb-3 mt-3">
+                            <label for="mdate" class="form-label">Mesurment Day</label>
+                            <input type="date" class="form-control" id="mdate" placeholder="Enter Mesurment Date" name="email">
+                        </div>
+
+                        <button class="btn btn-primary mt-3">Submit</button>
+                    </form>
                 </div>
             </div>
         </div>
     </section>
 
     <section *ngIf="isLogged" class="comment container my-5 border rounded-3">
-        <form #form="ngForm" class="m-4" (ngSubmit)="comment(form)">
-            <label for="comment">Comments:</label>
-            <textarea class="form-control" rows="5" id="comment" name="text"></textarea>
+        <app-comment-list *ngIf="order.comments.length != 0" [comments]="order.comments"></app-comment-list>
 
-            <button class="btn btn-primary mt-3">Submit</button>
+        <form #commentForm="ngForm" class="m-4" (ngSubmit)="comment(commentForm)">
+            <label for="comment">Comments:</label>
+
+            <textarea ngModel #commentInput="ngModel" class="form-control" rows="5" id="comment" name="comment" required></textarea>
+
+            <button [disabled]="commentForm.invalid" class="btn btn-primary mt-3">Submit</button>
         </form>
     </section>
 </div>

@@ -12,6 +12,7 @@ import { FooterComponent } from './core/footer/footer.component';
 import { AuthModule } from './auth/auth.module';
 import { OrdersModule } from './feature/orders/orders.module';
 import { SharedModule } from './shared/shared.module';
+import { CommentsModule } from './feature/comments/comments.module';
 
 @NgModule({
   declarations: [
@@ -20,17 +21,16 @@ import { SharedModule } from './shared/shared.module';
   imports: [
     BrowserModule,
     HttpClientModule,
+    AuthModule,
     CoreModule,
     PagesModule,
-    AuthModule,
     AppRoutingModule,
-    OrdersModule
+    OrdersModule,
+    CommentsModule
   ],
   providers: [],
   bootstrap: [
-    AppComponent,
-    HeaderComponent,
-    FooterComponent
+    AppComponent
   ]
 })
 export class AppModule { }
