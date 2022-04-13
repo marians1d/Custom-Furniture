@@ -12,6 +12,8 @@ import { UserService } from '../user.service';
 })
 export class RegisterComponent implements OnDestroy {
 
+  errorMessage: string | undefined = undefined;
+
   killSubscription = new Subject();
 
   form: FormGroup;
@@ -39,8 +41,13 @@ export class RegisterComponent implements OnDestroy {
       body.tel = tel;
     }
 
-    this.userService.register$(body).subscribe(() => {
+    this.userService.register$(body).subscribe({
+      next: () => {
       this.router.navigate(['/']);
+    },
+    error: (err) => {      
+      this.errorMessage = err.error.message;
+    }
     });
   }
 

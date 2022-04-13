@@ -1,4 +1,9 @@
 <div class="container w-50 p-5 my-5 border rounded-3">
+
+    <p *ngIf="errorMessage" class="error">
+        {{ errorMessage }}
+    </p>
+
     <form [formGroup]="form" (ngSubmit)="register()">
         <h2>Register Form</h2>
 
@@ -25,8 +30,7 @@
                 name="email">
         </div>
 
-        <ng-container
-            *ngIf="form.controls['email'].touched && form.controls['email'].invalid">
+        <ng-container *ngIf="form.controls['email'].touched && form.controls['email'].invalid">
             <p *ngIf="form.controls['email'].errors?.['required']" class="error">
                 Email is required!
             </p>
