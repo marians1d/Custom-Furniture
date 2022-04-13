@@ -6,6 +6,7 @@ export interface IOrder<T = string> extends IBase {
   comments: T[];
   orderName: string;
   mesurmentDate: Date;
+  status: 'public' | 'private';
   address: string;
   description: string;
   imageUrl: string;
