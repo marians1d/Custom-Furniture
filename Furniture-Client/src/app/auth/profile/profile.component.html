@@ -1,1 +1,15 @@
-<p>profile works!</p>
+<div *ngIf="user" class="container px-5 text-center text-lg-start">
+    <section class="main mx-5 mt-5 border rounded-3">
+
+        <div class="">
+            <img class="d-block mx-auto rounded-circle mt-5" [src]="user.profileImageUrl ? user.profileImageUrl : '/assets/profile.png'" alt="">
+            <div class="">
+                <h2 class="py-1 border-bottom">{{ user.username }}</h2>
+                <p> Location: {{ user.email }}</p>
+                <p> {{ user.status }}</p>
+                <p class="my-4">
+                </p>
+            </div>
+        </div>
+    </section>
+</div>
