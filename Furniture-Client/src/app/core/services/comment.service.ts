@@ -1,10 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IComment } from 'src/app/shared/interfaces';
-import { environment } from 'src/environments/environment';
-
-const apiUrl = environment.apiUrl;
+import { IComment, IOrder } from 'src/app/shared/interfaces';
 
 @Injectable()
 export class CommentService {
@@ -13,10 +10,8 @@ export class CommentService {
   createComment$(
     data: { commentText: string },
     orderId: string
-  ): Observable<IComment> {
-    return this.http.post<IComment>(`${apiUrl}/orders/${orderId}`, data, {
-      withCredentials: true,
-    });
+  ): Observable<IOrder<IComment>> {
+    return this.http.post<IOrder<IComment>>(`/api/orders/${orderId}`, data);
   }
 
   
