@@ -23,7 +23,7 @@ const orderSchema = new mongoose.Schema({
             'private',
             'public'
         ],
-        default: 'public'
+        required: true
     },
     providers: [{
         type: ObjectId,

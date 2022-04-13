@@ -32,10 +32,10 @@ function getOrder(req, res, next) {
 }
 
 function createOrder(req, res, next) {
-    const { orderName, description, address } = req.body;
+    const { orderName, description, address, visibility  } = req.body;
     const { _id: userId } = req.user;
 
-    orderModel.create({ orderName, description, address, userId, providers: [] })
+    orderModel.create({ orderName, description, address, visibility, userId })
         .then(order => res.status(200).json(order))
         .catch(next);
 }
@@ -54,9 +54,9 @@ function provide(req, res, next) {
 
 function updateOrder(req, res, next) {
     const orderId = req.params.orderId;
-    const { orderName, description, address } = req.body;
+    const { orderName, description, address, visibility } = req.body;
     
-    orderModel.findOneAndUpdate({ _id: orderId }, { orderName, description, address }, { runValidators: true, new: true })
+    orderModel.findOneAndUpdate({ _id: orderId }, { orderName, description, address, visibility }, { runValidators: true, new: true })
     .then(x => { res.status(200).json(x); })
     .catch(next);
 }
