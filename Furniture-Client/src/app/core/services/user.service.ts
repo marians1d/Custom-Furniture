@@ -42,4 +42,10 @@ export class UserService {
       .get<IUser>(`/api/users/profile`)
       .pipe(tap((user) => (this.user = user)));
   }
+
+  updateProfileInfo$(data: { username: string, email: string, tel?: string }): Observable<IUser> {
+    return this.http
+      .put<IUser>('/api/users/profile', data)
+      .pipe(tap((user) => (this.user = user)));
+  }
 }
