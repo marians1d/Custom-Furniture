@@ -47,6 +47,10 @@ const userSchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'Comment'
     }],
+    providing: [{
+        type: ObjectId,
+        ref: 'Order'
+    }],
     status: {
         type: String,
         enum : ['customer','provider'],

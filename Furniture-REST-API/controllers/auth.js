@@ -15,7 +15,7 @@ const removePassword = (data) => {
 function register(req, res, next) {
     const { tel, email, username, password } = req.body;
 
-    return userModel.create({ tel, email, username, password })
+    return userModel.create({ tel, email, username, password }).populate('orders')
         .then((createdUser) => {
             createdUser = bsonToJson(createdUser);
             createdUser = removePassword(createdUser);
@@ -46,7 +46,7 @@ function register(req, res, next) {
 function login(req, res, next) {
     const { email, password } = req.body;
 
-    userModel.findOne({ email })
+    userModel.findOne({ email }).populate('orders')
         .then(user => {
             return Promise.all([user, user ? user.matchPassword(password) : false]);
         })

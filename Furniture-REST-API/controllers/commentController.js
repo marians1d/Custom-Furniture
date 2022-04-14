@@ -3,10 +3,12 @@ const { userModel, orderModel, commentModel } = require('../models');
 function newComment(text, userId, orderId) {
     return commentModel.create({ text, userId, orderId })
         .then(comment => {
-            return Promise.all([
-                userModel.updateOne({ _id: userId }, { $push: { comments: comment._id }, $addToSet: { orders: orderId } }),
+            Promise.all([
+                userModel.updateOne({ _id: userId }, { $push: { comments: comment._id }}),
                 orderModel.findByIdAndUpdate({ _id: orderId }, { $push: { comments: comment._id } }, { new: true })
             ]);
+            
+            return comment;
         });
 }
 
@@ -29,7 +31,7 @@ function createComment(req, res, next) {
     const { commentText } = req.body;
 
     newComment(commentText, userId, orderId)
-        .then(([_, updatedOrder]) => res.status(200).json(updatedOrder))
+        .then((comment) => res.status(200).json(comment))
         .catch(next);
 }
 

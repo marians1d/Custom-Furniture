@@ -21,31 +21,41 @@ function getOrder(req, res, next) {
 
     orderModel.findById(orderId)
         .populate({
-            path : 'comments',
-            populate : {
-              path : 'userId'
+            path: 'comments',
+            populate: {
+                path: 'userId'
             }
-          })
+        })
         .populate('userId')
         .then(order => res.json(order))
         .catch(next);
 }
 
 function createOrder(req, res, next) {
-    const { orderName, description, address, visibility  } = req.body;
+    const { orderName, description, address, visibility } = req.body;
     const { _id: userId } = req.user;
 
-    orderModel.create({ orderName, description, address, visibility, userId })
-        .then(order => res.status(200).json(order))
+
+    orderModel.create({ orderName, description, address, visibility, userId, providers: [] }).then(order => {
+        userModel.findByIdAndUpdate({ _id: userId }, { $push: { orders: order } }).then().catch(next);
+        return order;
+    }).then(order => res.status(200).json(order))
         .catch(next);
 }
 
 function provide(req, res, next) {
     const orderId = req.params.orderId;
-    const { _id: userId } = req.user;
+    const { _id: userId, status } = req.user;
     const { mesurmentDate } = req.body;
 
-    orderModel.findByIdAndUpdate({ _id: orderId }, {mesurmentDate, $addToSet: { providers: userId } }, { new: true })
+    if (status !== 'provider') {
+        res.status(401).json({ message: 'Not allowed!' });
+    }
+
+    Promise.all([
+        orderModel.findByIdAndUpdate({ _id: orderId }, { mesurmentDate, $addToSet: { providers: userId } }, { new: true }),
+        userModel.updateOne({ _id: userId }, { $push: { providing: orderId } }),
+    ])
         .then(updatedOrder => {
             res.status(200).json(updatedOrder);
         })
@@ -55,9 +65,17 @@ function provide(req, res, next) {
 function updateOrder(req, res, next) {
     const orderId = req.params.orderId;
     const { orderName, description, address, visibility } = req.body;
-    
-    orderModel.findOneAndUpdate({ _id: orderId }, { orderName, description, address, visibility }, { runValidators: true, new: true })
-    .then(x => { res.status(200).json(x); })
+    const { _id: userId } = req.user;
+
+    orderModel.findOneAndUpdate({ _id: orderId, userId }, { orderName, description, address, visibility }, { runValidators: true, new: true })
+    .then(order => {
+        if (order) {
+            res.status(200).json(order);
+        }
+        else {
+            res.status(401).json({ message: 'Not allowed!' });
+        }
+    })
     .catch(next);
 }
 
@@ -68,7 +86,7 @@ function deleteOrder(req, res, next) {
     Promise.all([
         orderModel.findOneAndDelete({ _id: orderId, userId }),
         userModel.findOneAndUpdate({ _id: userId }, { $pull: { orders: orderId } }),
-        commentModel.deleteMany({ orderId }),
+        commentModel.deleteMany({ orderId: orderId }),
     ])
         .then(([deletedOne, _, __]) => {
             if (deletedOne) {
