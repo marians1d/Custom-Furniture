@@ -12,18 +12,19 @@
                 <li class="nav-item active">
                     <a class="nav-link" routerLink="/" (click)="isMenuCollapsed = true">Home</a>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/orders" (click)="isMenuCollapsed = true">Orders</a>
-                </li>
-
+                
                 <li class="nav-item" *ngIf="isLogged">
                     <a class="nav-link" routerLink="/orders/new" (click)="isMenuCollapsed = true">New Order</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link me-5" routerLink="/about" (click)="isMenuCollapsed = true">About</a>
+                    <a class="nav-link me-5" routerLink="/orders" (click)="isMenuCollapsed = true">Orders</a>
                 </li>
+
+
+                <!-- <li class="nav-item">
+                    <a class="nav-link me-5" routerLink="/about" (click)="isMenuCollapsed = true">About</a>
+                </li> -->
 
                 <li class="nav-item ">
                     <div class="col">
@@ -40,7 +41,7 @@
                                 
                                 <ng-container *ngIf="isLogged">
                                     <span class="dropdown-item-text">Hello, {{ currentUser!.username }}</span>
-                                    <button routerLink="/profile" ngbDropdownItem>My Profile</button>
+                                    <button routerLink="/users/profile" ngbDropdownItem>My Profile</button>
                                     <hr class="dropdown-divider">
                                     <button (click)="logout()" ngbDropdownItem>Logout</button>
                                 </ng-container>
