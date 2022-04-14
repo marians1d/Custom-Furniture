@@ -1,4 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
+import { LoggedGuard } from 'src/app/core/guards/logged.guard';
+import { OwnerGuard } from 'src/app/core/guards/owner.guard';
 import { NewOrderComponent } from './new-order/new-order.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrderEditComponent } from './order-edit/order-edit.component';
@@ -12,6 +14,7 @@ const routes: Routes = [
     },
     {
         path: 'new',
+        canActivate: [LoggedGuard],
         component: NewOrderComponent
     },
     {
@@ -20,6 +23,7 @@ const routes: Routes = [
     },
     {
         path: ':orderId/edit',
+        canActivate: [OwnerGuard],
         component: OrderEditComponent
     }
 ];
