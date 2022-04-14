@@ -2,3 +2,11 @@ img {
     width: 300px;
     height: 300px;
 }
+
+.error {
+    color: red;
+}
+
+.input-error {
+    border-color: red;
+}

@@ -2,13 +2,87 @@
     <section class="main mx-5 mt-5 border rounded-3">
 
         <div class="">
-            <img class="d-block mx-auto rounded-circle mt-5" [src]="user.profileImageUrl ? user.profileImageUrl : '/assets/profile.png'" alt="">
-            <div class="">
-                <h2 class="py-1 border-bottom">{{ user.username }}</h2>
-                <p> Location: {{ user.email }}</p>
-                <p> {{ user.status }}</p>
-                <p class="my-4">
-                </p>
+            <img class="d-block mx-auto rounded-circle my-5 border border-3 border-dark"
+                [src]="user.profileImageUrl ? user.profileImageUrl : '/assets/profile.png'" alt="">
+            <div class="border-top p-5">
+                <ng-container *ngIf="!isEditing">
+                    <p class="fs-1">Username: {{ user.username }} <span
+                            class="fs-5 ms-3 badge rounded-pill bg-secondary" *ngIf="user.status == 'provider'">{{
+                            user.status }}</span></p>
+                    <p class="fs-4">Email: {{ user.email }}</p>
+                    <p *ngIf="user.tel" class="fs-4">Phone: {{ user.tel }}</p>
+                    <button class="btn btn-primary" (click)="isEditing = !isEditing">Edit Profile</button>
+
+                </ng-container>
+
+                <form #form="ngForm" *ngIf="isEditing" (ngSubmit)="submit(form)">
+
+                    <div class="mb-3 mt-3">
+                        <label for="username" class="form-label">Username:</label>
+                        <input [ngModel]="user.username" #usernameInput="ngModel" type="username"
+                            [class.input-error]="usernameInput.touched && usernameInput.invalid" class="form-control"
+                            id="username" placeholder="Enter username" name="username" required minlength="4">
+                    </div>
+
+                    <ng-container *ngIf="usernameInput.touched && usernameInput.invalid">
+                        <p *ngIf="usernameInput.errors?.['required']" class="error">
+                            Username is required!
+                        </p>
+
+                        <p *ngIf="usernameInput.errors?.['minlength']" class="error">
+                            Username must be at least 4 characters!
+                        </p>
+                    </ng-container>
+
+                    <div class="mb-3 mt-3">
+                        <label for="email" class="form-label">Email:</label>
+                        <input [ngModel]="user.email" #emailInput="ngModel" type="email"
+                            [class.input-error]="emailInput.touched && emailInput.invalid" class="form-control"
+                            id="email" placeholder="Enter email" name="email" required email>
+                    </div>
+
+                    <ng-container *ngIf="emailInput.touched && emailInput.invalid">
+                        <p *ngIf="emailInput.errors?.['required']" class="error">
+                            Email is required!
+                        </p>
+
+                        <p *ngIf="emailInput.errors?.['email']" class="error">
+                            Email is not valid!
+                        </p>
+                    </ng-container>
+
+                    <div class="mb-3 mt-3">
+                        <label for="tel" class="form-label">Telephone: <span class="small text-muted">( Optional
+                                )</span></label>
+                        <input [ngModel]="user.tel" #telInput="ngModel" type="tel" class="form-control" id="tel"
+                            placeholder="Enter telephone" name="tel">
+                    </div>
+                    <button class="btn btn-primary me-2" [disabled]="form.invalid">Submit</button>
+                    <button class="btn btn-danger mx-2" type="button" (click)="isEditing = !isEditing">Cancel</button>
+                </form>
+            </div>
+
+            <div class="" *ngIf="user && user.orders">
+                <h3 *ngIf="user.orders.length > 0" class="text-center border-top pt-3">Your Orders</h3>
+                <h3 *ngIf="user.orders.length <= 0" class="text-center border-top pt-3">You have no orders yet</h3>
+
+                <div *ngFor="let order of user.orders">
+                    <div class="card mx-auto my-4 w-75" [routerLink]="['/orders', order._id]">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img [src]="order.imageUrl ? order.imageUrl : '/assets/sketching1.png'"
+                                    class="img-fluid rounded-start" alt="Order image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h2 class="card-title mb-3 pb-2 border-bottom">{{ order.orderName }}</h2>
+                                    <p class="card-text">Location: {{ order.address }}</p>
+                                    <p class="card-text">{{ order.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
