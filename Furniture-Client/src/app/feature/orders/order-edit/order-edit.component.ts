@@ -7,14 +7,20 @@ import { OrderService } from '../../../core/services/order.service';
 @Component({
   selector: 'app-order-edit',
   templateUrl: './order-edit.component.html',
-  styleUrls: ['./order-edit.component.css']
+  styleUrls: ['./order-edit.component.css'],
 })
 export class OrderEditComponent implements OnInit {
+  errorMessage: string | undefined = undefined;
+
   order!: IOrder<IComment>;
 
   initialStatus: string | undefined = this.order?.visibility;
 
-  constructor(private orderService: OrderService, private activatedRoute: ActivatedRoute, private router: Router) { }
+  constructor(
+    private orderService: OrderService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     const orderId = this.activatedRoute.snapshot.params['orderId'];
@@ -28,10 +34,13 @@ export class OrderEditComponent implements OnInit {
   }
 
   submit(form: NgForm): void {
-    
-    this.orderService.editOrder$(form.value, this.order._id).subscribe(() => {
-      this.router.navigate([`/orders/${this.order._id}`]);
+    this.orderService.editOrder$(form.value, this.order._id).subscribe({
+      next: (order) => {
+        this.router.navigate([`/orders/${this.order._id}`]);
+      },
+      error: (err) => {
+        this.errorMessage = err.error.message;
+      },
     });
   }
-
 }

@@ -60,13 +60,22 @@ export class OrderDetailsComponent implements OnInit {
     if (form.invalid) { return; }
 
     const commentText: string = form.value.comment;
-    this.commentService.createComment$({ commentText }, this.order._id).subscribe();
+    this.commentService.createComment$({ commentText }, this.order._id).subscribe((comment) => {
+        
+        comment.userId = this.user as any;
+        
+        this.order.comments.push(comment);
+    });
 
     form.reset();
   }
 
   delete() {
     this.orderService.deleteOrder$(this.order._id).subscribe(() => {
+      if (this.user?.orders) {
+        this.user!.orders = this.user?.orders.filter(o => o._id != this.order._id);
+      }
+
       this.router.navigate(['/']);
     });
   }

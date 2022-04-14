@@ -4,9 +4,10 @@
         <div class="d-lg-flex align-items-center justify-content-evenly">
             <img class="p-5" [src]="order.imageUrl ? order.imageUrl : '/assets/sketching1.png'" alt="">
             <div class="">
-                <h2 class="py-1 border-bottom">{{ order.orderName }}</h2>
+                <h2 class="py-1 border-bottom w-100">{{ order.orderName }}</h2>
                 <p> Location: {{ order.address }}</p>
-                <p *ngIf="order.mesurmentDate && (isOwner || isProvider)"> Mesurment Date: {{ order.mesurmentDate | date:'dd / MM / yy' }}</p>
+                <p *ngIf="order.mesurmentDate && (isOwner || isProvider)"> Mesurment Date: {{ order.mesurmentDate |
+                    date:'dd / MM / yy' }}</p>
                 <p class="my-4">
                     Description: {{ order.description }}
                 </p>
@@ -17,12 +18,13 @@
                         <button class="btn btn-danger" (click)="delete()">Delete</button>
                     </ng-container>
                     <ng-container *ngIf="!isOwner && isProvider && !isProviding">
-                        <button class="btn btn-warning" (click)="isProviding = !isProviding">Provide</button>
+                        <button class="btn btn-warning" (click)="isProviding = !isProviding">Set Appointment</button>
                     </ng-container>
-                    <form *ngIf="isProviding" #provideForm="ngForm" (ngSubmit)="provide(provideForm)" class="m-4" >
+                    <form *ngIf="isProviding" #provideForm="ngForm" (ngSubmit)="provide(provideForm)" class="m-4">
                         <div class="mb-3 mt-3">
                             <label for="mdate" class="form-label">Mesurment Day</label>
-                            <input ngModel #mesurmentDate="ngModel" type="date" class="form-control" id="mdate" placeholder="Enter Mesurment Date" name="mesurmentDate">
+                            <input ngModel #mesurmentDate="ngModel" type="date" class="form-control" id="mdate"
+                                placeholder="Enter Mesurment Date" name="mesurmentDate">
                         </div>
 
                         <button class="btn btn-primary mt-3">Submit</button>
@@ -32,13 +34,20 @@
         </div>
     </section>
 
-    <section *ngIf="isLogged" class="comment container my-5 border rounded-3">
+    <section class="comment container my-5 border rounded-3 mb-0">
+        <h2 *ngIf="order.comments.length != 0" class="text-center mt-3">Comment section</h2>
         <app-comment-list *ngIf="order.comments.length != 0" [comments]="order.comments"></app-comment-list>
+        
+        <h2 *ngIf="!(order.comments.length != 0)" class="text-center mt-3">Be the first to post a comment</h2>
+    </section>
+
+    <section *ngIf="isLogged" class="comment container my-5 border rounded-3 mt-0">
 
         <form #commentForm="ngForm" class="m-4" (ngSubmit)="comment(commentForm)">
             <label for="comment">Comments:</label>
 
-            <textarea ngModel #commentInput="ngModel" class="form-control" rows="5" id="comment" name="comment" required></textarea>
+            <textarea ngModel #commentInput="ngModel" class="form-control" rows="5" id="comment" name="comment"
+                required></textarea>
 
             <button [disabled]="commentForm.invalid" class="btn btn-primary mt-3">Submit</button>
         </form>
