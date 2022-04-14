@@ -1,7 +1,9 @@
-<ng-container *ngIf="orderList">
+<ng-container *ngIf="orderList && orderList.length > 0">
     <div *ngFor="let order of orderList" >
         <app-order-list-item [order]="order"></app-order-list-item>
     </div>
 </ng-container>
 
 <app-spiner *ngIf="!orderList" ></app-spiner>
+
+<h3 *ngIf="orderList && orderList.length <= 0" class="text-center mt-5">Be the first to post a order</h3>

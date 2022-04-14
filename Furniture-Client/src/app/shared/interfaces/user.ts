@@ -8,5 +8,6 @@ export interface IUser extends IBase {
   status: string;
   email: string;
   username: string;
+  tel: string;
   profileImageUrl: string;
 }
