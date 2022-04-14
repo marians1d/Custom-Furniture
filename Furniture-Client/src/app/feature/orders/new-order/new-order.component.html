@@ -62,7 +62,7 @@
         </div>
 
         <ng-container *ngIf="descriptionInput.touched">
-            <p *ngIf="locationInput.errors?.['required']" class="error">
+            <p *ngIf="descriptionInput.errors?.['required']" class="error">
                 Description is required!
             </p>
             <p *ngIf="descriptionInput.errors?.['minlength']" class="error">
