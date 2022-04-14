@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IComment, IOrder } from 'src/app/shared/interfaces';
+import { IComment } from 'src/app/shared/interfaces';
 
 @Injectable()
 export class CommentService {
@@ -10,8 +10,8 @@ export class CommentService {
   createComment$(
     data: { commentText: string },
     orderId: string
-  ): Observable<IOrder<IComment>> {
-    return this.http.post<IOrder<IComment>>(`/api/orders/${orderId}`, data);
+  ): Observable<IComment> {
+    return this.http.post<IComment>(`/api/orders/${orderId}`, data);
   }
 
   
