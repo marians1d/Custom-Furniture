@@ -89,7 +89,7 @@ function getProfileInfo(req, res, next) {
     const { _id: userId } = req.user;
 
     userModel.findOne({ _id: userId }, { password: 0, __v: 0 }) //finding by Id and returning without password and __v
-        .populate('orders')
+        .populate('orders providing')
         .then(user => { res.status(200).json(user); })
         .catch(next);
 }
@@ -109,7 +109,7 @@ function editProfileInfo(req, res, next) {
             .then(x => { res.status(200).json(x); })
             .catch(next);
     } else {
-        userModel.findOneAndUpdate({ _id: userId }, { tel, username, email }, { runValidators: true, new: true })
+        userModel.findOneAndUpdate({ _id: userId }, { tel, username, email }, { runValidators: true, new: true }).populate('orders providing')
             .then(x => { res.status(200).json(x); })
             .catch(next);
     }
