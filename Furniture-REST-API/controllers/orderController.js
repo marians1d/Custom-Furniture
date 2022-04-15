@@ -1,4 +1,5 @@
 const { userModel, orderModel, commentModel } = require('../models');
+const { uploadFile } = require('../utils/disk');
 
 function getOrders(req, res, next) {
     const user = req.user;
@@ -32,15 +33,31 @@ function getOrder(req, res, next) {
 }
 
 function createOrder(req, res, next) {
-    const { orderName, description, address, visibility } = req.body;
+    const { orderName, description, address, visibility } = req.fields;
     const { _id: userId } = req.user;
 
+    const orderImage = req.files.orderImage;
 
-    orderModel.create({ orderName, description, address, visibility, userId, providers: [] }).then(order => {
-        userModel.findByIdAndUpdate({ _id: userId }, { $push: { orders: order } }).then().catch(next);
-        return order;
-    }).then(order => res.status(200).json(order))
-        .catch(next);
+
+    if (orderImage) {
+        uploadFile(orderImage).then(id => {
+            const orderImageUrl = `https://drive.google.com/uc?id=${id}`;
+            return orderModel.create({ orderName, description, address, visibility, userId, orderImageUrl });
+        })
+            .then(order => {
+                userModel.findByIdAndUpdate({ _id: userId }, { $push: { orders: order } }).then().catch(next);
+                return order;
+            }).then(order => res.status(200).json(order))
+            .catch(next);
+    } else {
+        orderModel.create({ orderName, description, address, visibility, userId, providers: [] }).then(order => {
+            userModel.findByIdAndUpdate({ _id: userId }, { $push: { orders: order } }).then().catch(next);
+            return order;
+        }).then(order => res.status(200).json(order))
+            .catch(next);
+    }
+
+
 }
 
 function provide(req, res, next) {
@@ -64,19 +81,38 @@ function provide(req, res, next) {
 
 function updateOrder(req, res, next) {
     const orderId = req.params.orderId;
-    const { orderName, description, address, visibility } = req.body;
+    const { orderName, description, address, visibility } = req.fields;
     const { _id: userId } = req.user;
 
-    orderModel.findOneAndUpdate({ _id: orderId, userId }, { orderName, description, address, visibility }, { runValidators: true, new: true })
-    .then(order => {
-        if (order) {
-            res.status(200).json(order);
-        }
-        else {
-            res.status(401).json({ message: 'Not allowed!' });
-        }
-    })
-    .catch(next);
+    const orderImage = req.files.orderImage;
+
+    if (orderImage) {
+        uploadFile(orderImage).then(id => {
+            const orderImageUrl = `https://drive.google.com/uc?id=${id}`;
+            return orderModel.findOneAndUpdate({ _id: orderId, userId }, { orderName, description, address, visibility, orderImageUrl }, { runValidators: true, new: true });
+        })
+            .then(order => {
+                if (order) {
+                    res.status(200).json(order);
+                }
+                else {
+                    res.status(401).json({ message: 'Not allowed!' });
+                }
+            })
+            .catch(next);
+
+    } else {
+        orderModel.findOneAndUpdate({ _id: orderId, userId }, { orderName, description, address, visibility }, { runValidators: true, new: true })
+            .then(order => {
+                if (order) {
+                    res.status(200).json(order);
+                }
+                else {
+                    res.status(401).json({ message: 'Not allowed!' });
+                }
+            })
+            .catch(next);
+    }
 }
 
 function deleteOrder(req, res, next) {

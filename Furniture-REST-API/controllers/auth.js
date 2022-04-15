@@ -16,7 +16,7 @@ const removePassword = (data) => {
 function register(req, res, next) {
     const { tel, email, username, password } = req.body;
 
-    return userModel.create({ tel, email, username, password }).populate('orders')
+    return userModel.create({ tel, email, username, password })
         .then((createdUser) => {
             createdUser = bsonToJson(createdUser);
             createdUser = removePassword(createdUser);
@@ -96,7 +96,16 @@ function getProfileInfo(req, res, next) {
 
 function editProfileInfo(req, res, next) {
     const { _id: userId } = req.user;
-    const { tel, username, email } = req.fields;
+    let tel, username, email;
+
+    if (req.data) {
+        email = req.data.email;
+        username = req.data.username;
+
+        if(req.data.tel) {
+            tel = req.data.tel;
+        }
+    }
 
     const newProfileImage = req.files.profileImageUrl;
 
@@ -104,7 +113,7 @@ function editProfileInfo(req, res, next) {
 
         uploadFile(newProfileImage).then(id => {
             const profileImageUrl = `https://drive.google.com/uc?id=${id}`;
-            return userModel.findOneAndUpdate({ _id: userId }, { tel, username, email, profileImageUrl }, { runValidators: true, new: true });
+            return userModel.findOneAndUpdate({ _id: userId }, { profileImageUrl }, { runValidators: true, new: true }).populate('orders providing');
         })
             .then(x => { res.status(200).json(x); })
             .catch(next);

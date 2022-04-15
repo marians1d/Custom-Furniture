@@ -6,6 +6,9 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    orderImageUrl: {
+        type: String
+    },
     mesurmentDate: {
         type: Date
     },
