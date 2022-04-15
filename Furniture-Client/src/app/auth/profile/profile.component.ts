@@ -8,6 +8,8 @@ import { UserService } from '../../core/services/user.service';
   styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
+  newProfilePicture?: File;
+
   isEditing: boolean = false;
 
   get user() {
@@ -25,13 +27,30 @@ export class ProfileComponent implements OnInit {
       return;
     }
 
-    this.userService.updateProfileInfo$(form.value).subscribe(() => {
+    const user: {
+      username: string,
+      email: string,
+      tel?: string,
+      profileImageUrl: File | undefined
+    } = {
+      username: form.value.username,
+      email: form.value.email,
+      profileImageUrl: this.newProfilePicture
+    }
+
+    if (form.value.tel) {
+      user.tel = form.value.tel
+    }
+
+
+    this.userService.updateProfileInfo$(user).subscribe(() => {
       this.isEditing = !this.isEditing;
     });
   }
 
-  getUser() {
-    console.log(this.user);
+  profilePictureChange(event: Event) {
+    const input: HTMLInputElement = event.target as HTMLInputElement;
     
+    this.newProfilePicture = input.files![0];    
   }
 }

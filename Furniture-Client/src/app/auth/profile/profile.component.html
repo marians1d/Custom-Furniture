@@ -3,7 +3,7 @@
 
         <div class="">
             <img class="d-block mx-auto rounded-circle my-5 border border-3 border-dark"
-                [src]="user.profileImageUrl ? user.profileImageUrl : '/assets/profile.png'" alt="">
+                [src]="user.profileImageUrl ? user.profileImageUrl : '/assets/profile.png'" alt="Profile Image">
             <div class="border-top p-5">
                 <ng-container *ngIf="!isEditing">
                     <p class="fs-1">Username: {{ user.username }} <span
@@ -16,6 +16,11 @@
                 </ng-container>
 
                 <form #form="ngForm" *ngIf="isEditing" (ngSubmit)="submit(form)">
+
+                    <div class="mb-3 mt-3">
+                        <p for="profileImageUrl" >Profile Image:</p>
+                        <input type="file" accept="image/*" id="profileImageUrl" name="profileImageUrl" (change)="profilePictureChange($event)">
+                    </div>
 
                     <div class="mb-3 mt-3">
                         <label for="username" class="form-label">Username:</label>

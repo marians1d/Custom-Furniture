@@ -5,6 +5,7 @@ const {
 
 const utils = require('../utils');
 const { authCookieName } = require('../app-config');
+const { uploadFile } = require('../utils/disk');
 
 const bsonToJson = (data) => { return JSON.parse(JSON.stringify(data)); };
 const removePassword = (data) => {
@@ -95,11 +96,23 @@ function getProfileInfo(req, res, next) {
 
 function editProfileInfo(req, res, next) {
     const { _id: userId } = req.user;
-    const { tel, username, email } = req.body;
+    const { tel, username, email } = req.fields;
 
-    userModel.findOneAndUpdate({ _id: userId }, { tel, username, email }, { runValidators: true, new: true })
-        .then(x => { res.status(200).json(x); })
-        .catch(next);
+    const newProfileImage = req.files.profileImageUrl;
+
+    if (newProfileImage) {
+
+        uploadFile(newProfileImage).then(id => {
+            const profileImageUrl = `https://drive.google.com/uc?id=${id}`;
+            return userModel.findOneAndUpdate({ _id: userId }, { tel, username, email, profileImageUrl }, { runValidators: true, new: true });
+        })
+            .then(x => { res.status(200).json(x); })
+            .catch(next);
+    } else {
+        userModel.findOneAndUpdate({ _id: userId }, { tel, username, email }, { runValidators: true, new: true })
+            .then(x => { res.status(200).json(x); })
+            .catch(next);
+    }
 }
 
 function editProfileStatus(req, res, next) {
