@@ -43,20 +43,17 @@ export class UserService {
       .pipe(tap((user) => (this.user = user)));
   }
 
-  updateProfileInfo$(data: { username: string, email: string, tel?: string, profileImageUrl?: File }): Observable<IUser> {
+  updateProfileInfo$(data: { username: string, email: string, tel?: string }): Observable<IUser> {    
+    return this.http
+      .put<IUser>('/api/users/profile', data)
+      .pipe(tap((user) => (this.user = user)));
+  }
+
+  editProfileImage$(profileImageUrl: File) {
     const formData = new FormData();
 
-    formData.set('username', data.username)
-    formData.set('email', data.email)
-    
-    if (data.tel) {
-      formData.set('tel', data.tel)
-    }
+    formData.append('profileImageUrl', profileImageUrl);
 
-    if (data.profileImageUrl) {
-      formData.append('profileImageUrl', data.profileImageUrl);
-    }    
-    
     return this.http
       .put<IUser>('/api/users/profile', formData)
       .pipe(tap((user) => (this.user = user)));
