@@ -89,6 +89,31 @@
                     </div>
                 </div>
             </div>
+
+            <div class="" *ngIf="user && user.orders && user.status == 'provider'">
+                <h3 *ngIf="user.orders.length > 0" class="text-center border-top pt-3">Upcoming mesurments</h3>
+                <h3 *ngIf="user.orders.length <= 0" class="text-center border-top pt-3">No upcoming mesurments</h3>
+
+                <div *ngFor="let order of user.providing">
+                    <div class="card mx-auto my-4 w-75" [routerLink]="['/orders', order._id]">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img [src]="order.imageUrl ? order.imageUrl : '/assets/sketching1.png'"
+                                    class="img-fluid rounded-start" alt="Order image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h2 class="card-title mb-3 pb-2 border-bottom">{{ order.orderName }}</h2>
+
+                                    <p class="card-text">Mesurment Date: {{ order.mesurmentDate | date:'dd / MM / yy' }}</p>
+                                    <p class="card-text">Location: {{ order.address }}</p>
+                                    <p class="card-text">{{ order.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </div>
