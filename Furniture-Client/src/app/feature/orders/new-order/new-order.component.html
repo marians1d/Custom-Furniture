@@ -70,6 +70,11 @@
             </p>
         </ng-container>
 
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Order Image: </label>
+            <input (change)="orderImageChange($event)" accept="image/*" class="form-control" type="file" id="formFile">
+        </div>
+
 
 
         <button type="submit" class="btn btn-primary my-2" [disabled]="form.invalid">Submit</button>
