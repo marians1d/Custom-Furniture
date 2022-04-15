@@ -1,5 +1,6 @@
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/core/services/user.service';
 import { IComment, IOrder, IUser } from 'src/app/shared/interfaces';
@@ -45,7 +46,8 @@ export class OrderDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private commentService: CommentService,
-    private router: Router
+    private router: Router,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +55,10 @@ export class OrderDetailsComponent implements OnInit {
 
     this.orderService.getOrder$(orderId).subscribe((order) => {
       this.order = order;
+
+      this.title.setTitle(order.orderName);
     });
+
   }
 
   comment(form: NgForm): void {

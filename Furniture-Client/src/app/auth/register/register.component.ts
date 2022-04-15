@@ -1,5 +1,6 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { samePasswordAsFactory } from 'src/app/shared/validators';
@@ -10,7 +11,7 @@ import { UserService } from '../../core/services/user.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnDestroy {
+export class RegisterComponent implements OnInit, OnDestroy {
 
   errorMessage: string | undefined = undefined;
 
@@ -18,7 +19,7 @@ export class RegisterComponent implements OnDestroy {
 
   form: FormGroup;
 
-  constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router) { 
+  constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router, private title: Title) { 
     this.form = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(5)]],
       email: ['', [Validators.required, Validators.email]],
@@ -28,6 +29,10 @@ export class RegisterComponent implements OnDestroy {
       )]],
       tel: ['']
     })
+  }
+
+  ngOnInit(): void {
+    this.title.setTitle('Register')
   }
 
   register() {

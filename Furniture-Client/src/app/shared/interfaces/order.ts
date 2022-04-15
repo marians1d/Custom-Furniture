@@ -9,7 +9,7 @@ export interface IOrder<T = string> extends IBase {
   status: 'public' | 'private';
   address: string;
   description: string;
-  imageUrl: string;
+  orderImageUrl: string;
   userId: IUser;
   visibility: string;
 }
