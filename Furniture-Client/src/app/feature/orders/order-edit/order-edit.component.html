@@ -8,9 +8,9 @@
 
         <div class="mb-3 mt-3">
             <label for="orderName" class="form-label">Order Name:</label>
-            <input [ngModel]="order.orderName" #nameInput="ngModel" [class.input-error]="nameInput.touched && nameInput.invalid" type="text"
-                class="form-control" id="orderName" placeholder="Enter your order's name" name="orderName" required
-                minlength="4">
+            <input [ngModel]="order.orderName" #nameInput="ngModel"
+                [class.input-error]="nameInput.touched && nameInput.invalid" type="text" class="form-control"
+                id="orderName" placeholder="Enter your order's name" name="orderName" required minlength="4">
         </div>
 
         <ng-container *ngIf="nameInput.touched">
@@ -25,9 +25,9 @@
 
         <div class="mb-3">
             <label for="location" class="form-label">Order location:</label>
-            <input [ngModel]="order.address" #locationInput="ngModel" [class.input-error]="locationInput.touched && locationInput.invalid"
-                type="text" class="form-control" id="location" placeholder="Enter location" name="address" required
-                minlength="5">
+            <input [ngModel]="order.address" #locationInput="ngModel"
+                [class.input-error]="locationInput.touched && locationInput.invalid" type="text" class="form-control"
+                id="location" placeholder="Enter location" name="address" required minlength="5">
         </div>
 
         <ng-container *ngIf="locationInput.touched">
@@ -41,12 +41,14 @@
             <div class="form-check py-1">
                 <input ngModel #statusInput="ngModel" type="radio" class="form-check-input" id="radio1"
                     [(ngModel)]="initialStatus" name="visibility" [value]="'public'" pattern="public|private">
-                <label class="form-check-label" for="radio1">Public <span class="small text-muted">(Anyone on the internet can see your order)</span></label>
+                <label class="form-check-label" for="radio1">Public <span class="small text-muted">(Anyone on the
+                        internet can see your order)</span></label>
             </div>
             <div class="form-check py-1">
                 <input ngModel #statusInput="ngModel" type="radio" class="form-check-input" id="radio2"
                     [(ngModel)]="initialStatus" name="visibility" [value]="'private'" pattern="public|private">
-                <label class="form-check-label" for="radio2">Private <span class="small text-muted">(Only staff can see your order)</span></label>
+                <label class="form-check-label" for="radio2">Private <span class="small text-muted">(Only staff can see
+                        your order)</span></label>
             </div>
 
             <ng-container *ngIf="statusInput.touched && statusInput.invalid">
@@ -73,7 +75,10 @@
             </p>
         </ng-container>
 
-
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Chose a new order image: <span class="small text-muted">( Optional )</span></label>
+            <input (change)="orderImageChange($event)" accept="image/*" class="form-control" type="file" id="formFile">
+        </div>
 
         <button type="submit" class="btn btn-primary my-2" [disabled]="form.invalid">Submit</button>
     </form>

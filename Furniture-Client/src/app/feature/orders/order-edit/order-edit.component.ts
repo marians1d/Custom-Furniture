@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IComment, IOrder } from 'src/app/shared/interfaces';
 import { OrderService } from '../../../core/services/order.service';
+import { CreateOrderDto } from '../new-order/new-order.component';
 
 @Component({
   selector: 'app-order-edit',
@@ -10,6 +12,8 @@ import { OrderService } from '../../../core/services/order.service';
   styleUrls: ['./order-edit.component.css'],
 })
 export class OrderEditComponent implements OnInit {
+  orderImage?: File;
+
   errorMessage: string | undefined = undefined;
 
   order!: IOrder<IComment>;
@@ -19,10 +23,13 @@ export class OrderEditComponent implements OnInit {
   constructor(
     private orderService: OrderService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
+    this.title.setTitle('Edit')
+
     const orderId = this.activatedRoute.snapshot.params['orderId'];
 
     this.orderService.getOrder$(orderId).subscribe((order) => {
@@ -34,13 +41,28 @@ export class OrderEditComponent implements OnInit {
   }
 
   submit(form: NgForm): void {
-    this.orderService.editOrder$(form.value, this.order._id).subscribe({
+
+    const order: CreateOrderDto = {
+      orderName: form.value.orderName,
+      description: form.value.description,
+      address: form.value.address,
+      visibility:form.value.visibility,
+      orderImage: this.orderImage
+    }
+
+    this.orderService.editOrder$(order, this.order._id).subscribe({
       next: (order) => {
-        this.router.navigate([`/orders/${this.order._id}`]);
+        this.router.navigate([`/orders/${order._id}`]);
       },
       error: (err) => {
         this.errorMessage = err.error.message;
       },
     });
+  }
+
+  orderImageChange(event: Event) {
+    const input: HTMLInputElement = event.target as HTMLInputElement;
+    
+    this.orderImage = input.files![0];
   }
 }
