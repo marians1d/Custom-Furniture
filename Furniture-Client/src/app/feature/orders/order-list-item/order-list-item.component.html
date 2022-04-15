@@ -1,15 +1,15 @@
 <div class="card mx-auto my-4 w-75" [routerLink]="['/orders', order._id]">
   <div class="row g-0">
     <div class="col-md-4">
-      <img [src]="order.imageUrl ? order.imageUrl : '/assets/sketching1.png'" class="img-fluid rounded-start" alt="Order image">
+      <img [src]="order.orderImageUrl ? order.orderImageUrl : '/assets/sketching1.png'" class="img-fluid rounded-start" alt="Order image">
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <p class="card-title fs-1 mb-3 pb-2 border-bottom">{{ order.orderName }}</p>
+        <p class="card-title fs-2 mb-3 pb-2 border-bottom">{{ order.orderName }}</p>
 
-        <p class="card-text fs-3"><small class="text-muted text-end">from: {{ order.userId.username }}</small></p>
-        <p class="card-text fs-3">Location: {{ order.address }}</p>
-        <p class="card-text fs-3">{{ order.description }}</p>
+        <p class="card-text fs-4"><small class="text-muted text-end">from: {{ order.userId.username }}</small></p>
+        <p class="card-text fs-4">Location: {{ order.address }}</p>
+        <p class="card-text fs-6">{{ order.description }}</p>
         <p class="card-text text-end  fs-6">Posted: {{ order.created_at | timeDiff }}</p>
       </div>
     </div>
