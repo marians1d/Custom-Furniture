@@ -61,6 +61,12 @@ export class OrderDetailsComponent implements OnInit {
 
   }
 
+  cancelMesurement(form: NgForm) {
+    this.isProviding = false;
+
+    form.reset();
+  }
+
   comment(form: NgForm): void {
     if (form.invalid) { return; }
 
