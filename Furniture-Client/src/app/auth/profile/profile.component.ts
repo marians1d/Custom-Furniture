@@ -26,7 +26,7 @@ export class ProfileComponent implements OnInit {
   submit(form: NgForm): void {
     if (form.invalid) {
       return;
-    }
+    }   
 
     this.userService.updateProfileInfo$(form.value).subscribe(() => {
       this.isEditing = !this.isEditing;

@@ -96,7 +96,9 @@ function getProfileInfo(req, res, next) {
 
 function editProfileInfo(req, res, next) {
     const { _id: userId } = req.user;
-    let tel, username, email;
+    const {tel, username, email} = req.fields;
+
+    console.log(req);
 
     if (req.data) {
         email = req.data.email;
@@ -118,6 +120,7 @@ function editProfileInfo(req, res, next) {
             .then(x => { res.status(200).json(x); })
             .catch(next);
     } else {
+        console.log('No image', {tel, username, email});
         userModel.findOneAndUpdate({ _id: userId }, { tel, username, email }, { runValidators: true, new: true }).populate('orders providing')
             .then(x => { res.status(200).json(x); })
             .catch(next);
