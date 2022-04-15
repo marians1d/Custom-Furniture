@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { UserService } from '../../core/services/user.service';
 
 @Component({
@@ -16,10 +17,10 @@ export class ProfileComponent implements OnInit {
     return this.userService.user;
   }
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private title: Title) {}
 
   ngOnInit(): void {
-    
+    this.title.setTitle('Profile');
   }
 
   submit(form: NgForm): void {
@@ -27,23 +28,7 @@ export class ProfileComponent implements OnInit {
       return;
     }
 
-    const user: {
-      username: string,
-      email: string,
-      tel?: string,
-      profileImageUrl: File | undefined
-    } = {
-      username: form.value.username,
-      email: form.value.email,
-      profileImageUrl: this.newProfilePicture
-    }
-
-    if (form.value.tel) {
-      user.tel = form.value.tel
-    }
-
-
-    this.userService.updateProfileInfo$(user).subscribe(() => {
+    this.userService.updateProfileInfo$(form.value).subscribe(() => {
       this.isEditing = !this.isEditing;
     });
   }
@@ -52,5 +37,9 @@ export class ProfileComponent implements OnInit {
     const input: HTMLInputElement = event.target as HTMLInputElement;
     
     this.newProfilePicture = input.files![0];    
+    if (this.newProfilePicture) {
+      this.userService.editProfileImage$(this.newProfilePicture).subscribe();
+    }
+    
   }
 }

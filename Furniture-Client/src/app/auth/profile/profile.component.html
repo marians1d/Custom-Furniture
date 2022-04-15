@@ -2,8 +2,11 @@
     <section class="main mx-5 mt-5 border rounded-3">
 
         <div class="">
-            <img class="d-block mx-auto rounded-circle my-5 border border-3 border-dark"
-                [src]="user.profileImageUrl ? user.profileImageUrl : '/assets/profile.png'" alt="Profile Image">
+            <section class="image">
+                <img class="d-block mx-auto rounded-circle mt-5 border border-3 border-dark"
+                    [src]="user.profileImageUrl ? user.profileImageUrl : '/assets/profile.png'" alt="Profile Image">
+                <button class="d-block mx-auto my-4 btn btn-warning" (click)="profileImage.click()">Edit</button>
+            </section>
             <div class="border-top p-5">
                 <ng-container *ngIf="!isEditing">
                     <p class="fs-1">Username: {{ user.username }} <span
@@ -14,13 +17,11 @@
                     <button class="btn btn-primary" (click)="isEditing = !isEditing">Edit Profile</button>
 
                 </ng-container>
+                
+                <input #profileImage class="profile-image" type="file" accept="image/*" name="profileImageUrl"
+                            (change)="profilePictureChange($event)">
 
                 <form #form="ngForm" *ngIf="isEditing" (ngSubmit)="submit(form)">
-
-                    <div class="mb-3 mt-3">
-                        <p for="profileImageUrl" >Profile Image:</p>
-                        <input type="file" accept="image/*" id="profileImageUrl" name="profileImageUrl" (change)="profilePictureChange($event)">
-                    </div>
 
                     <div class="mb-3 mt-3">
                         <label for="username" class="form-label">Username:</label>
@@ -75,7 +76,7 @@
                     <div class="card mx-auto my-4 w-75" [routerLink]="['/orders', order._id]">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img [src]="order.imageUrl ? order.imageUrl : '/assets/sketching1.png'"
+                                <img [src]="order.orderImageUrl ? order.orderImageUrl : '/assets/sketching1.png'"
                                     class="img-fluid rounded-start" alt="Order image">
                             </div>
                             <div class="col-md-8">
@@ -91,21 +92,22 @@
             </div>
 
             <div class="" *ngIf="user && user.orders && user.status == 'provider'">
-                <h3 *ngIf="user.orders.length > 0" class="text-center border-top pt-3">Upcoming mesurments</h3>
-                <h3 *ngIf="user.orders.length <= 0" class="text-center border-top pt-3">No upcoming mesurments</h3>
+                <h3 *ngIf="user.providing.length > 0" class="text-center border-top pt-3">Upcoming mesurments</h3>
+                <h3 *ngIf="user.providing.length <= 0" class="text-center border-top pt-3">No upcoming mesurments</h3>
 
                 <div *ngFor="let order of user.providing">
                     <div class="card mx-auto my-4 w-75" [routerLink]="['/orders', order._id]">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img [src]="order.imageUrl ? order.imageUrl : '/assets/sketching1.png'"
+                                <img [src]="order.orderImageUrl ? order.orderImageUrl : '/assets/sketching1.png'"
                                     class="img-fluid rounded-start" alt="Order image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
                                     <h2 class="card-title mb-3 pb-2 border-bottom">{{ order.orderName }}</h2>
 
-                                    <p class="card-text">Mesurment Date: {{ order.mesurmentDate | date:'dd / MM / yy' }}</p>
+                                    <p class="card-text">Mesurment Date: {{ order.mesurmentDate | date:'dd / MM / yy' }}
+                                    </p>
                                     <p class="card-text">Location: {{ order.address }}</p>
                                     <p class="card-text">{{ order.description }}</p>
                                 </div>

@@ -3,6 +3,10 @@ img {
     height: 300px;
 }
 
+.profile-image {
+    display: none;
+}
+
 .card:hover {
     transition: box-shadow .3s;
     box-shadow: 10px 10px 5px gray;
