@@ -2,7 +2,7 @@
     <section class="main  mt-5 border rounded-3">
 
         <div class="d-lg-flex align-items-center justify-content-evenly">
-            <img class="p-5" [src]="order.imageUrl ? order.imageUrl : '/assets/sketching1.png'" alt="">
+            <img class="p-3" [src]="order.orderImageUrl ? order.orderImageUrl : '/assets/sketching1.png'" alt="">
             <div class="">
                 <h2 class="py-1 border-bottom w-100">{{ order.orderName }}</h2>
                 <p> Location: {{ order.address }}</p>
