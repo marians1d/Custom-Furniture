@@ -20,6 +20,8 @@ export interface CreateOrderDto {
 })
 export class NewOrderComponent implements OnInit {
 
+  isLoading: boolean = false;
+
   orderImage?: File;
 
   isPublic: boolean = true;
@@ -37,6 +39,8 @@ export class NewOrderComponent implements OnInit {
   submit(form: NgForm): void {
     if (form.invalid) { return; }
 
+    this.isLoading = true;
+
     const order: CreateOrderDto = {
       orderName: form.value.orderName,
       description: form.value.description,
@@ -47,11 +51,15 @@ export class NewOrderComponent implements OnInit {
 
     this.orderService.createOrder$(order).subscribe({
       next: (order) => {
+        this.isLoading = false;
+
         this.userService.user?.orders.push(order);
 
         this.router.navigate([`/orders/${order._id}`]);
       },
       error: (err) => {
+        this.isLoading = false;
+
         console.error(err);
       }
     })

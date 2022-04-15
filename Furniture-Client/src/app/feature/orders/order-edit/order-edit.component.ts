@@ -12,6 +12,8 @@ import { CreateOrderDto } from '../new-order/new-order.component';
   styleUrls: ['./order-edit.component.css'],
 })
 export class OrderEditComponent implements OnInit {
+  isLoading: boolean = false;
+
   orderImage?: File;
 
   errorMessage: string | undefined = undefined;
@@ -28,7 +30,7 @@ export class OrderEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.title.setTitle('Edit')
+    this.title.setTitle('Edit');
 
     const orderId = this.activatedRoute.snapshot.params['orderId'];
 
@@ -41,20 +43,25 @@ export class OrderEditComponent implements OnInit {
   }
 
   submit(form: NgForm): void {
+    this.isLoading = true;
 
     const order: CreateOrderDto = {
       orderName: form.value.orderName,
       description: form.value.description,
       address: form.value.address,
-      visibility:form.value.visibility,
-      orderImage: this.orderImage
-    }
+      visibility: form.value.visibility,
+      orderImage: this.orderImage,
+    };
 
     this.orderService.editOrder$(order, this.order._id).subscribe({
       next: (order) => {
+        this.isLoading = false;
+
         this.router.navigate([`/orders/${order._id}`]);
       },
       error: (err) => {
+        this.isLoading = false;
+
         this.errorMessage = err.error.message;
       },
     });
@@ -62,7 +69,7 @@ export class OrderEditComponent implements OnInit {
 
   orderImageChange(event: Event) {
     const input: HTMLInputElement = event.target as HTMLInputElement;
-    
+
     this.orderImage = input.files![0];
   }
 }

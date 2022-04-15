@@ -80,7 +80,9 @@
             <input (change)="orderImageChange($event)" accept="image/*" class="form-control" type="file" id="formFile">
         </div>
 
-        <button type="submit" class="btn btn-primary my-2" [disabled]="form.invalid">Submit</button>
+        <button type="submit" class="btn btn-primary my-2" [disabled]="form.invalid || isLoading">Submit</button>
+
+        <h3 *ngIf="isLoading">Loading...</h3>
     </form>
 </div>
 

@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/core/services/user.service';
-import { IComment, IOrder, IUser } from 'src/app/shared/interfaces';
+import { IComment, IOrder } from 'src/app/shared/interfaces';
 import { CommentService } from '../../../core/services/comment.service';
 import { OrderService } from '../../../core/services/order.service';
 
